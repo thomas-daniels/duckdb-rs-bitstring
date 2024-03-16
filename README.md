@@ -1,3 +1,6 @@
+[![crates.io](https://img.shields.io/crates/v/duckdb-bitstring.svg)](https://crates.io/crates/duckdb-bitstring)
+[![docs.rs](https://docs.rs/duckdb-bitstring/badge.svg)](https://docs.rs/duckdb-bitstring)
+
 # duckdb-rs-bitstring
 
 An extension for [duckdb-rs](https://github.com/duckdb/duckdb-rs) providing support for the DuckDB BIT/BITSTRING type. The corresponding Rust type is `BitVec` from the [`bit-vec` crate](https://crates.io/crates/bit-vec). (`duckdb-bitstring` provides the `Bitstring` type as wrapper around `BitVec` in order to make this work.)
