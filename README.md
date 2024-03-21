@@ -5,6 +5,13 @@
 
 An extension for [duckdb-rs](https://github.com/duckdb/duckdb-rs) providing support for the DuckDB BIT/BITSTRING type. The corresponding Rust type is `BitVec` from the [`bit-vec` crate](https://crates.io/crates/bit-vec). (`duckdb-bitstring` provides the `Bitstring` type as wrapper around `BitVec` in order to make this work.)
 
+## Compatibility table
+
+| `duckdb-bitstring`  | DuckDB        | `bit-vec`     |
+| -------------       | ------------- | ------------- |
+| 0.1.2               | 0.10.1        | 0.6.3         |
+| 0.1.1               | 0.10.0        | 0.6.3         |
+
 ## Querying BITs from DuckDB
 
 Similar to the example in `duckdb-rust` - a `Bitstring` can be obtained from `.get` on a row. A `Bitstring` can be consumed and turned into the underlying `BitVec` using `.into_bitvec()`, or `.as_bitvec()` can be used to get a reference to the underlying `BitVec` without consuming the `Bitstring`.
