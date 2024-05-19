@@ -1,7 +1,7 @@
 [package]
 name = "duckdb-bitstring"
 authors = ["Thomas Daniels <daniels.thomas@pm.me>"]
-version = "0.1.2"
+version = "0.2.0"
 edition = "2021"
 categories = ["database"]
 license = "MIT"
@@ -13,5 +13,5 @@ description = "BIT type support for duckdb-rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-duckdb = "0.10.1"
+duckdb = "0.10"
 bit-vec = "0.6.3"
