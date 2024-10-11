@@ -16,11 +16,14 @@ impl<'a> ToSql for Bitstring<'a> {
                 BitstringError::EmptyBitstring,
             )))
         } else {
-            Ok(ToSqlOutput::Owned(Value::Text(format!(
-                "{:?}",
-                self.as_bitvec()
-            ))))
+            Ok(ToSqlOutput::Owned(Value::Text(format!("{}", self))))
         }
+    }
+}
+
+impl fmt::Display for Bitstring<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.as_bitvec())
     }
 }
 
@@ -119,7 +122,7 @@ mod tests {
     fn from_raw_1() {
         let bytes = vec![0, 0b01100101, 0b11100101, 0b00000101];
         let bv = Bitstring::from_raw(&bytes).unwrap().into_bitvec();
-        let s = format!("{:?}", bv);
+        let s = format!("{}", bv);
         assert_eq!(s, "011001011110010100000101");
     }
 
@@ -127,7 +130,7 @@ mod tests {
     fn from_raw_2() {
         let bytes = vec![1, 0b11100101, 0b11100101, 0b00000101];
         let bv = Bitstring::from_raw(&bytes).unwrap().into_bitvec();
-        let s = format!("{:?}", bv);
+        let s = format!("{}", bv);
         assert_eq!(s, "11001011110010100000101");
     }
 
@@ -135,7 +138,7 @@ mod tests {
     fn from_raw_3() {
         let bytes = vec![2, 0b11100101, 0b11100101, 0b00000101];
         let bv = Bitstring::from_raw(&bytes).unwrap().into_bitvec();
-        let s = format!("{:?}", bv);
+        let s = format!("{}", bv);
         assert_eq!(s, "1001011110010100000101");
     }
 
@@ -143,7 +146,7 @@ mod tests {
     fn from_raw_4() {
         let bytes = vec![3, 0b11100101, 0b11100101, 0b00000101];
         let bv = Bitstring::from_raw(&bytes).unwrap().into_bitvec();
-        let s = format!("{:?}", bv);
+        let s = format!("{}", bv);
         assert_eq!(s, "001011110010100000101");
     }
 
@@ -151,7 +154,7 @@ mod tests {
     fn from_raw_5() {
         let bytes = vec![4, 0b11110101, 0b11100101, 0b00000101];
         let bv = Bitstring::from_raw(&bytes).unwrap().into_bitvec();
-        let s = format!("{:?}", bv);
+        let s = format!("{}", bv);
         assert_eq!(s, "01011110010100000101");
     }
 
@@ -159,7 +162,7 @@ mod tests {
     fn from_raw_6() {
         let bytes = vec![5, 0b11111101, 0b11100101, 0b00000101];
         let bv = Bitstring::from_raw(&bytes).unwrap().into_bitvec();
-        let s = format!("{:?}", bv);
+        let s = format!("{}", bv);
         assert_eq!(s, "1011110010100000101");
     }
 
@@ -167,7 +170,7 @@ mod tests {
     fn from_raw_7() {
         let bytes = vec![6, 0b11111101, 0b11100101, 0b00000101];
         let bv = Bitstring::from_raw(&bytes).unwrap().into_bitvec();
-        let s = format!("{:?}", bv);
+        let s = format!("{}", bv);
         assert_eq!(s, "011110010100000101");
     }
 
@@ -175,7 +178,7 @@ mod tests {
     fn from_raw_8() {
         let bytes = vec![7, 0b11111111, 0b11100101, 0b00000101];
         let bv = Bitstring::from_raw(&bytes).unwrap().into_bitvec();
-        let s = format!("{:?}", bv);
+        let s = format!("{}", bv);
         assert_eq!(s, "11110010100000101");
     }
 
@@ -204,7 +207,7 @@ mod tests {
     fn test_raw_minimal() {
         let bytes = vec![7, 0b11111111];
         let bv = Bitstring::from_raw(&bytes).unwrap().into_bitvec();
-        let s = format!("{:?}", bv);
+        let s = format!("{}", bv);
         assert_eq!(s, "1");
     }
 
@@ -216,5 +219,12 @@ mod tests {
             s,
             ToSqlOutput::Owned(Value::Text(String::from("111001011110010100000101")))
         );
+    }
+
+    #[test]
+    fn test_display() {
+        let bv = Bitstring::from(BitVec::from_bytes(&[0b11100101, 0b11100101, 0b00000101]));
+        let s = format!("{}", bv);
+        assert_eq!(s, "111001011110010100000101");
     }
 }

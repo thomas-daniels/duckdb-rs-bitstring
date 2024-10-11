@@ -13,5 +13,5 @@ description = "BIT type support for duckdb-rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-duckdb = "1.0"
-bit-vec = "0.6.3"
+duckdb = "1.1"
+bit-vec = "0.8"

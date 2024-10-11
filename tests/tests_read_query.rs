@@ -34,7 +34,7 @@ fn test_read() {
         .query_and_then([], |row| row.get::<_, Bitstring>(1))
         .unwrap()
         .map(|r| r.unwrap())
-        .map(|r| format!("{:?}", r.as_bitvec()))
+        .map(|r| format!("{}", r.as_bitvec()))
         .collect();
 
     assert_eq!(rows.len(), 3);
@@ -54,7 +54,7 @@ fn test_read_option() {
         .unwrap()
         .map(|r| r.unwrap())
         .map(|r| {
-            r.map(|v| format!("{:?}", v.as_bitvec()))
+            r.map(|v| format!("{}", v.as_bitvec()))
                 .unwrap_or("NULL".to_owned())
         })
         .collect();
@@ -75,7 +75,7 @@ fn test_read_after_operation() {
         .query_and_then([], |row| row.get::<_, Bitstring>(1))
         .unwrap()
         .map(|r| r.unwrap())
-        .map(|r| format!("{:?}", r.as_bitvec()))
+        .map(|r| format!("{}", r.as_bitvec()))
         .collect();
 
     assert_eq!(rows.len(), 3);
