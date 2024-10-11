@@ -5,18 +5,19 @@ use std::fmt;
 
 #[derive(Debug, Clone)]
 /// Type representing a bitstring that can be converted to a DuckDB BIT type (or the other way around).
+///
 /// Under the hood this is just a wrapper for [`bit_vec::BitVec`] with the necessary traits ([`FromSql`]/[`ToSql`]) implemented.
 /// Use [`Bitstring::from`] to obtain a [`Bitstring`] from an owned or borrowed [`bit_vec::BitVec`].
 pub struct Bitstring<'a>(Cow<'a, BitVec>);
 
-impl<'a> ToSql for Bitstring<'a> {
+impl ToSql for Bitstring<'_> {
     fn to_sql(&self) -> duckdb::Result<ToSqlOutput<'_>> {
         if self.as_bitvec().is_empty() {
             Err(duckdb::Error::ToSqlConversionFailure(Box::new(
                 BitstringError::EmptyBitstring,
             )))
         } else {
-            Ok(ToSqlOutput::Owned(Value::Text(format!("{}", self))))
+            Ok(ToSqlOutput::Owned(Value::Text(format!("{self}"))))
         }
     }
 }
@@ -42,9 +43,9 @@ pub enum BitstringError {
 impl fmt::Display for BitstringError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            BitstringError::RawDataBadPadding(pad) => write!(f, "raw data padding byte should be 0-7, was {pad}"),
-            BitstringError::RawDataTooShort(len) => write!(f, "raw data too short (should be at least 2 bytes, was {len} bytes long)"),
-            BitstringError::EmptyBitstring => write!(f, "DuckDB does not support empty bit strings, consider using a nullable column and Option<Bitstring>")
+            Self::RawDataBadPadding(pad) => write!(f, "raw data padding byte should be 0-7, was {pad}"),
+            Self::RawDataTooShort(len) => write!(f, "raw data too short (should be at least 2 bytes, was {len} bytes long)"),
+            Self::EmptyBitstring => write!(f, "DuckDB does not support empty bit strings, consider using a nullable column and Option<Bitstring>")
         }
     }
 }
@@ -85,8 +86,8 @@ impl From<BitVec> for Bitstring<'_> {
 }
 
 impl<'a> From<&'a BitVec> for Bitstring<'a> {
-    fn from(v: &'a BitVec) -> Bitstring<'a> {
-        Bitstring(Cow::Borrowed(v))
+    fn from(v: &'a BitVec) -> Self {
+        Self(Cow::Borrowed(v))
     }
 }
 
@@ -101,7 +102,7 @@ impl FromSql for Bitstring<'_> {
 
 impl From<BitstringError> for FromSqlError {
     fn from(value: BitstringError) -> Self {
-        FromSqlError::Other(Box::new(value))
+        Self::Other(Box::new(value))
     }
 }
 
