@@ -9,6 +9,7 @@ An extension for [duckdb-rs](https://github.com/duckdb/duckdb-rs) providing supp
 
 | `duckdb-bitstring`  | DuckDB        | `bit-vec`     |
 | -------------       | ------------- | ------------- |
+| 0.5                 | 1.2.X         | 0.8           |
 | 0.4                 | 1.1.X         | 0.8           |
 | 0.3                 | 1.0.X         | 0.6.3         |
 | 0.2                 | 0.10.X        | 0.6.3         |
